@@ -36,21 +36,27 @@ pipeline {
         }
 		
 		stage('Create docker image') {
-            sh 'echo =====> CREATING DOCKER IMAGE WITH NAME: ${imageName}'
-            sh 'docker build -t ${imageName} .'
+			steps {
+				sh 'echo =====> CREATING DOCKER IMAGE WITH NAME: ${imageName}'
+				sh 'docker build -t ${imageName} .'
+			}
 		}
 	   
 		stage('Deploy') {
-			sh 'echo ==============================================='
-		    sh 'echo    Deploy docker'
-		    sh 'echo ==============================================='
-            sh 'docker save ${imageName} > /data1/dockerimages/${imageName}.tar'
-			sh "ssh tomcat@${destination} 'sh /data1/dockerdeploy/deployTest.sh ${profileName} ${containerName} ${imageName} ${portForward}'"
+			steps {
+				sh 'echo ==============================================='
+				sh 'echo    Deploy docker'
+				sh 'echo ==============================================='
+				sh 'docker save ${imageName} > /data1/dockerimages/${imageName}.tar'
+				sh "ssh tomcat@${destination} 'sh /data1/dockerdeploy/deployTest.sh ${profileName} ${containerName} ${imageName} ${portForward}'"
+			}
 		}
        
 		stage('Remove deployed image') {
-			sh "docker rmi ${imageName} --force"
-			sh "docker system prune --force"
+			steps {
+				sh "docker rmi ${imageName} --force"
+				sh "docker system prune --force"
+			}
 		}
     }
 }
