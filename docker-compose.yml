@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+    hello-nginx:
+        container_name: hello-nginx
+        image: hello-nginx
+#        restart: always
+        ports:
+            - "9090:80"
+#        environment:
+#            TZ: "Asia/Jakarta"
+#            - NGINX_HOST: localhost
+#            - NGINX_PORT: 80
+#        volumes:
+#          - F://Docker//Nginx//volumes:/etc/nginx
+#        networks:
+#            - net-hello-nginx
+#networks:
+#    net-hello-nginx:
+#        name: net-hello-nginx
