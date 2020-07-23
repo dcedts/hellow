@@ -47,7 +47,8 @@ pipeline {
 				sh 'echo ==============================================='
 				sh 'echo    Deploy docker'
 				sh 'echo ==============================================='
-				sh 'docker save ${imageName} > /data1/dockerimages/${imageName}.tar'
+				sh 'docker save ${imageName} > /data1/docker/dockerimages/${imageName}.tar'
+				sh "sh /data1/docker/dockerimages/copyImages.sh ${imageName} ${profileName} ${destination}"
 				sh "ssh tomcat@${destination} 'sh /data1/dockerdeploy/deployTest.sh ${profileName} ${containerName} ${imageName} ${portForward}'"
 			}
 		}
